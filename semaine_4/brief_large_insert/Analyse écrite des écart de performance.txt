@@ -1,0 +1,12 @@
+Analyse écrite des écart
+
+Pour toutes les analyses de temps des méthodes, je me baserais sur les résultats en seconde pour 10 000 lignes, avec 100 de page_size/batch_size.
+
+On remarque que les deux méthodes cursor.execute():3.71s/2.41s, ainsi que executemany():2.43s sont particulièrement lents.
+
+De rapidité croissantes, viennent ensuite pandas.to_sql(chunksize):0.86s, execute_batch():0.41s,pandas.to_sql():0.25s et execute_values():0.17s .
+Je n'ai pas trouvé d'explication pour la contre-performance de panda.tosql(chunksize), dont les fonctionnement est censé être très similaire à panda.tosql()
+
+Enfin, cursor.copy_expert():0.058s , pandas.to_sql():0.066s branché sur copy et copy_via_itérateur:0.092s sont de vitesse comparable et largement plus rapide que le reste.
+On remarque  que copy_via_itérateur prend 50% plus de temps que les deux autres méthodes, étonnement.
+
